@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 public class Practice {
     /**
@@ -172,7 +173,7 @@ public class Practice {
     public static int sumAtLevel(BinaryTreeNode<Integer> root, int level) {
 
         if(root == null)return 0;
-        
+
         if(level == 1){
             return root.data;
         }
@@ -192,6 +193,30 @@ public class Practice {
      * @return true if the sums are equal, false otherwise
      */
     public static boolean sumMatch(BinaryTreeNode<Integer> root, ListNode<Integer> head) {
-        return false;
+
+        Stack<BinaryTreeNode<Integer>> stack = new Stack<>();
+        int treeSum = 0;
+
+        stack.push(root);
+        while(stack.size() > 0){
+            BinaryTreeNode<Integer> current = stack.pop();
+            if(current == null) continue;
+            stack.push(current.right);
+            stack.push(current.left);
+
+            treeSum += current.data;
+        }
+
+
+        int listSum = 0;
+        ListNode<Integer> current = head;
+        while(current != null){
+
+            listSum += current.data;
+            current = current.next;
+        }
+
+
+        return treeSum == listSum;
     }
 }
